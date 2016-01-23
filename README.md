@@ -1,8 +1,8 @@
 # RejectDeeplyNested
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/reject_deeply_nested`. To experiment with that code, run `bin/console` for an interactive prompt.
+[![Gem Version](https://badge.fury.io/rb/reject_deeply_nested.svg)](https://badge.fury.io/rb/reject_deeply_nested) [![Build Status](https://travis-ci.org/ignat-zakrevsky/reject_deeply_nested.svg?branch=master)](https://travis-ci.org/ignat-zakrevsky/reject_deeply_nested)
 
-TODO: Delete this and the text above, and describe your gem
+Gem for rejecting deeply nested structures when you are using `accept_nested_attributes_for`. Using recursive traverse instead of stack because of [this](<https://gist.github.com/ignat-zakrevsky/6779db323c64faf4ed89>).
 
 ## Installation
 
@@ -22,7 +22,21 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+There are two cases of using `reject_deeply_nested`
+
+When you simply want to reject nested blank values:
+
+```ruby
+accepts_nested_attributes_for :dependents, reject_if: RejectDeeplyNested::BLANK
+```
+
+Other case, when you want to ignore some additional fields, for example id's keys
+
+```ruby
+accepts_nested_attributes_for :dependents, reject_if: RejectDeeplyNested::SMART_BLANK.curry.([/_id$/])
+```
+
+P.S. I'm not sure about convenient format for such methods.
 
 ## Development
 
@@ -32,7 +46,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/reject_deeply_nested.
+Bug reports and pull requests are welcome on GitHub at https://github.com/ignat-zakrevsky/reject_deeply_nested.
 
 
 ## License
