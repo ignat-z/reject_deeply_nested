@@ -35,13 +35,13 @@ Other case, when you want to ignore some additional fields, for example id's key
 
 ```ruby
 accepts_nested_attributes_for :dependents,
-  reject_if: RejectDeeplyNested.blank?([/_id$/])
+  reject_if: RejectDeeplyNested.blank?(ignore_values: [/_id$/])
 ```
 
 Additionaly, if you want to reject not complete filled attributes you can use
 ```ruby
 accepts_nested_attributes_for :dependents,
-  reject_if: RejectDeeplyNested.any_missed?(['name', 'age'])
+  reject_if: RejectDeeplyNested.has_missed_fields?(['name', 'age'])
 ```
 
 ## Development

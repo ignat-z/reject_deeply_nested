@@ -12,11 +12,11 @@ module RejectDeeplyNested
     fields.any? { |field| attributes[field].blank? }
   end
 
-  def self.any_missed?(fields)
-    ANY_MISSED.curry.(fields)
+  def self.has_missed_fields?(fields)
+    ANY_MISSED.curry.(Array(fields))
   end
 
-  def self.blank?(ignore_values = [])
+  def self.blank?(ignore_values: [])
     SMART_BLANK.curry.(ignore_values)
   end
 
