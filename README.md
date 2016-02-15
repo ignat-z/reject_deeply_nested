@@ -28,23 +28,21 @@ When you simply want to reject nested blank values:
 
 ```ruby
 accepts_nested_attributes_for :dependents,
-  reject_if: RejectDeeplyNested::BLANK
+  reject_if: RejectDeeplyNested.blank?
 ```
 
 Other case, when you want to ignore some additional fields, for example id's keys
 
 ```ruby
 accepts_nested_attributes_for :dependents,
-  reject_if: RejectDeeplyNested::SMART_BLANK.curry.([/_id$/])
+  reject_if: RejectDeeplyNested.blank?([/_id$/])
 ```
 
 Additionaly, if you want to reject not complete filled attributes you can use
 ```ruby
 accepts_nested_attributes_for :dependents,
-  reject_if: RejectDeeplyNested::ANY_MISSED.curry.(['name', 'age'])
+  reject_if: RejectDeeplyNested.any_missed?(['name', 'age'])
 ```
-
-P.S. I'm not sure about convenient format for such methods.
 
 ## Development
 

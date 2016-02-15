@@ -12,6 +12,14 @@ module RejectDeeplyNested
     fields.any? { |field| attributes[field].blank? }
   end
 
+  def self.any_missed?(fields)
+    ANY_MISSED.curry.(fields)
+  end
+
+  def self.blank?(ignore_values = [])
+    SMART_BLANK.curry.(ignore_values)
+  end
+
   private
 
   # Recursively traverse nested attributes to define is all values blank.

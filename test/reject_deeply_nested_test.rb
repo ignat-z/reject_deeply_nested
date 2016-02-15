@@ -15,6 +15,7 @@ class RejectDeeplyNestedTest < Minitest::Test
       p: { q: '', r: '', s: { t: { u: { w: '' } } } }
     }
     assert ::RejectDeeplyNested::BLANK.call(deep_hash_witout_values)
+    assert ::RejectDeeplyNested.blank?.call(deep_hash_witout_values)
   end
 
   def test_return_false_for_nested_hash_with_at_least_one_non_blank_value
@@ -27,6 +28,7 @@ class RejectDeeplyNestedTest < Minitest::Test
       p: { q: '', r: '', s: { t: { u: { w: '' } } } }
     }
     refute ::RejectDeeplyNested::BLANK.call(deep_hash_with_value)
+    refute ::RejectDeeplyNested.blank?.call(deep_hash_with_value)
   end
 
   def test_ignore_value_if_key_equals_destroy
@@ -39,6 +41,7 @@ class RejectDeeplyNestedTest < Minitest::Test
       p: { q: '', r: '', s: { t: { u: { w: '' } } } }
     }
     assert ::RejectDeeplyNested::BLANK.call(deep_hash_with_value)
+    assert ::RejectDeeplyNested.blank?.call(deep_hash_with_value)
   end
 
   def test_smart_blank_which_can_ignore_passed_values
@@ -51,6 +54,7 @@ class RejectDeeplyNestedTest < Minitest::Test
       p: { q: '', r: '', s: { t: { u: { w: '' } } } }
     }
     assert ::RejectDeeplyNested::SMART_BLANK.curry.([/_id$/]).call(deep_hash_with_value)
+    assert ::RejectDeeplyNested.blank?([/_id$/]).call(deep_hash_with_value)
   end
 
   def test_smart_blank_which_can_ignore_passed_values_but_not_forget_about_destroy_key
@@ -63,6 +67,7 @@ class RejectDeeplyNestedTest < Minitest::Test
       p: { q: '', r: '', s: { t: { u: { "_destroy" => '' } } } }
     }
     assert ::RejectDeeplyNested::SMART_BLANK.curry.([/_id$/]).call(deep_hash_with_value)
+    assert ::RejectDeeplyNested.blank?([/_id$/]).call(deep_hash_with_value)
   end
 
   def test_smart_blank_which_return_false_for_hash_with_non_ignored_value
@@ -75,6 +80,7 @@ class RejectDeeplyNestedTest < Minitest::Test
       p: { q: '', r: '', s: { t: { u: { "_destroy" => '' } } } }
     }
     refute ::RejectDeeplyNested::SMART_BLANK.curry.([]).call(deep_hash_with_value)
+    refute ::RejectDeeplyNested.blank?([]).call(deep_hash_with_value)
   end
 
   def test_for_all_present_in_attributes
@@ -82,6 +88,7 @@ class RejectDeeplyNestedTest < Minitest::Test
     attributes = { 'a' => 1, 'b' => 2, 'c' => 3 }
 
     refute ::RejectDeeplyNested::ANY_MISSED.curry.(fields).call(attributes)
+    refute ::RejectDeeplyNested.any_missed?(fields).call(attributes)
   end
 
   def test_for_any_missed_in_attributes
@@ -89,14 +96,6 @@ class RejectDeeplyNestedTest < Minitest::Test
     attributes = { 'a' => 1, 'b' => 2, 'c' => nil }
 
     assert ::RejectDeeplyNested::ANY_MISSED.curry.(fields).call(attributes)
+    assert ::RejectDeeplyNested.any_missed?(fields).call(attributes)
   end
 end
-
-
-
-
-
-
-
-
-
