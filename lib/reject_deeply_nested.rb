@@ -8,6 +8,9 @@ module RejectDeeplyNested
   SMART_BLANK = proc do |ignore_values, attributes|
     deep_blank?(attributes, Array(ignore_values) + DEFAULT_IGNORE_VALUES)
   end
+  ANY_MISSED = proc do |fields, attributes|
+    fields.any? { |field| attributes[field].blank? }
+  end
 
   private
 

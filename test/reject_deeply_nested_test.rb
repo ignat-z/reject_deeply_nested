@@ -76,6 +76,20 @@ class RejectDeeplyNestedTest < Minitest::Test
     }
     refute ::RejectDeeplyNested::SMART_BLANK.curry.([]).call(deep_hash_with_value)
   end
+
+  def test_for_all_present_in_attributes
+    fields = ['a', 'b', 'c']
+    attributes = { 'a' => 1, 'b' => 2, 'c' => 3 }
+
+    refute ::RejectDeeplyNested::ANY_MISSED.curry.(fields).call(attributes)
+  end
+
+  def test_for_any_missed_in_attributes
+    fields = ['a', 'b', 'c']
+    attributes = { 'a' => 1, 'b' => 2, 'c' => nil }
+
+    assert ::RejectDeeplyNested::ANY_MISSED.curry.(fields).call(attributes)
+  end
 end
 
 
